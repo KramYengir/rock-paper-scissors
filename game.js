@@ -43,7 +43,7 @@ function playRound(playerChoice, computerChoice){
         msg = 'You Lose! '+computerChoice+' beats '+playerChoice+'!';
     else msg = 'Draw!';
 
-    return msg;
+    return getResultMessage(playerChoice, computerChoice, winLoseDraw);
 }
 
 
@@ -57,4 +57,18 @@ function getComputerChoice(){
         return "paper";
 
     return "scissors";
+}
+
+function getResultMessage(playerChoice, computerChoice, result){
+    let msg = '';
+
+    if(result === 3){
+        msg = 'Draw!';
+    }
+    else if(result === 1){
+        msg = `You Win! ${playerChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}!`;
+    }
+    else msg = `You Lost! ${computerChoice.toUpperCase()} beats ${playerChoice.toUpperCase()}!`;
+
+    return msg;
 }
