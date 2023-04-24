@@ -1,46 +1,70 @@
 const playerChoice = "rock";
 const computerChoice = getComputerChoice();
 
+let playerScore = 0;
+let computerScore = 0;
+
+function game(){
+
+    const promptMsg = "Please Enter Your Choice - Rock, Paper or Scissors?";
+
+    for(let i=0; i<5; i++){
+        alert(playRound(prompt(promptMsg), getComputerChoice()));
+    }
+
+    if(playerScore === computerScore){
+        alert('Its a draw....');
+    }
+    else if(playerScore > computerScore){
+        alert('You Win!!!!!!!');
+    }
+    else alert("You Lose!!!!!");
+}
+
 function playRound(playerChoice, computerChoice){
-    playerChoice = playerChoice.toLowerCase();
+    playerChoice = playerChoice.toUpperCase();
 
     let msg = '';
     let winLoseDraw;
 
     switch(playerChoice){
-        case 'rock':
-            if(computerChoice === 'rock')
+        case 'ROCK':
+            if(computerChoice === 'ROCK')
             winLoseDraw = 3;
-            else if(computerChoice === 'paper')
+            else if(computerChoice === 'PAPER')
             winLoseDraw = 2;
             else winLoseDraw = 1;
-            console.log('rock');
+            console.log('ROCK');
             break;
-        case 'paper':
-            if(computerChoice === 'rock')
+        case 'PAPER':
+            if(computerChoice === 'ROCK')
             winLoseDraw = 1;
-            else if(computerChoice === 'paper')
+            else if(computerChoice === 'PAPER')
             winLoseDraw = 3;
             else winLoseDraw = 2;
-            console.log('paper');
+            console.log('PAPER');
             break;
-        case 'scissors':
-            if(computerChoice === 'rock')
+        case 'SCISSORS':
+            if(computerChoice === 'ROCK')
             winLoseDraw = 2;
-            else if(computerChoice === 'paper')
+            else if(computerChoice === 'PAPER')
             winLoseDraw = 1;
             else winLoseDraw = 3;
             console.log('scissos');
             break;
         default:
-            msg = 'Incorrect Choice!';
+            console.log('Incorrect Choice!');
             return;
     }
 
-    if(winLoseDraw === 1)
+    if(winLoseDraw === 1){
         msg = 'You Win! '+playerChoice+' beats '+computerChoice+'!';
-    else if(winLoseDraw === 2)
+        playerScore++;
+    }
+    else if(winLoseDraw === 2){
         msg = 'You Lose! '+computerChoice+' beats '+playerChoice+'!';
+        computerScore++;
+    }
     else msg = 'Draw!';
 
     return getResultMessage(playerChoice, computerChoice, winLoseDraw);
@@ -52,11 +76,11 @@ function getComputerChoice(){
     let randomNum = Math.random();
 
     if(randomNum < 0.33)
-        return "rock";
+        return "ROCK";
     else if(randomNum < 0.66)
-        return "paper";
+        return "PAPER";
 
-    return "scissors";
+    return "SCISSORS";
 }
 
 function getResultMessage(playerChoice, computerChoice, result){
@@ -66,9 +90,9 @@ function getResultMessage(playerChoice, computerChoice, result){
         msg = 'Draw!';
     }
     else if(result === 1){
-        msg = `You Win! ${playerChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}!`;
+        msg = `You Win! ${playerChoice} beats ${computerChoice}!`;
     }
-    else msg = `You Lost! ${computerChoice.toUpperCase()} beats ${playerChoice.toUpperCase()}!`;
+    else msg = `You Lost! ${computerChoice} beats ${playerChoice}!`;
 
     return msg;
 }
