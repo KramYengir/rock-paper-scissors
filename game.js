@@ -3,38 +3,25 @@ const computerChoice = getComputerChoice();
 
 let playerScore = 0;
 let computerScore = 0;
+let resultMsg = "";
+let roundResultMsg = '';
 
 const buttons = document.querySelectorAll('button');
 
 buttons.forEach(button  => {
-    button.addEventListener('click', playRound(button.id, getComputerChoice));
+    button.addEventListener('click', () => playRound(button.id, getComputerChoice()));
+
 })
-
-function game(){
-
-    const promptMsg = "Please Enter Your Choice - Rock, Paper or Scissors?";
-
-
-
-    //OLD LOGIC
-    /*for(let i=0; i<5; i++){
-        alert(playRound(prompt(promptMsg), getComputerChoice()));
-    }
-
-    if(playerScore === computerScore){
-        alert('Its a draw....');
-    }
-    else if(playerScore > computerScore){
-        alert('You Win!!!!!!!');
-    }
-    else alert("You Lose!!!!!");*/
-}
 
 function playRound(playerChoice, computerChoice){
     playerChoice = playerChoice.toUpperCase();
 
     let msg = '';
     let winLoseDraw;
+
+    //Reset scores if player just won/lost
+    if(playerScore == 5 || computerScore == 5)
+        resetScores();
 
     switch(playerChoice){
         case 'ROCK':
@@ -59,7 +46,7 @@ function playRound(playerChoice, computerChoice){
             else if(computerChoice === 'PAPER')
             winLoseDraw = 1;
             else winLoseDraw = 3;
-            console.log('scissos');
+            console.log('SCISSORS');
             break;
         default:
             console.log('Incorrect Choice!');
@@ -67,19 +54,37 @@ function playRound(playerChoice, computerChoice){
     }
 
     if(winLoseDraw === 1){
-        msg = 'You Win! '+playerChoice+' beats '+computerChoice+'!';
         playerScore++;
     }
     else if(winLoseDraw === 2){
-        msg = 'You Lose! '+computerChoice+' beats '+playerChoice+'!';
         computerScore++;
     }
-    else msg = 'Draw!';
 
-    return getResultMessage(playerChoice, computerChoice, winLoseDraw);
+    roundResultMsg = getResultMessage(playerChoice, computerChoice, winLoseDraw);
+
+    refreshScoreDisplay();
+    checkScore();
 }
 
+function checkScore(){
+    if(playerScore === 5){
+       resultMsg = "YOU WON!!!";
+    }
+    else if(computerScore === 5){
+        resultMsg = "YOU LOST!!!";
+    } else {
+        resultMsg = "";
+    }
 
+    
+    refreshScoreDisplay();   
+    
+}
+
+function resetScores(){
+    playerScore = 0;
+    computerScore = 0;
+}
 
 function getComputerChoice(){
     let randomNum = Math.random();
@@ -104,4 +109,31 @@ function getResultMessage(playerChoice, computerChoice, result){
     else msg = `You Lost! ${computerChoice} beats ${playerChoice}!`;
 
     return msg;
+}
+
+function getCurrentScoreMsg(){
+    return 
+}
+
+//DOM STUFF
+const container = document.querySelector('.container');
+const playerScoreHeading = document.querySelector('#playerScore');
+const computerScoreHeading = document.querySelector('#computerScore');
+
+const playerScoreText = document.createElement('h2');
+playerScoreText.innerText = playerScore;
+const computerScoreText = document.createElement('h2');
+computerScoreText.innerText = computerScore;
+
+const roundResultText = document.createElement('h3');
+
+playerScoreHeading.appendChild(playerScoreText);
+computerScoreHeading.appendChild(computerScoreText);
+container.appendChild(roundResultText);
+
+
+function refreshScoreDisplay(){
+    playerScoreText.innerText = playerScore + " "+resultMsg;
+    computerScoreText.innerText = computerScore;
+    roundResultText.innerText = roundResultMsg;
 }
