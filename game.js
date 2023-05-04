@@ -4,11 +4,20 @@ const computerChoice = getComputerChoice();
 let playerScore = 0;
 let computerScore = 0;
 
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach(button  => {
+    button.addEventListener('click', playRound(button.id, getComputerChoice));
+})
+
 function game(){
 
     const promptMsg = "Please Enter Your Choice - Rock, Paper or Scissors?";
 
-    for(let i=0; i<5; i++){
+
+
+    //OLD LOGIC
+    /*for(let i=0; i<5; i++){
         alert(playRound(prompt(promptMsg), getComputerChoice()));
     }
 
@@ -18,7 +27,7 @@ function game(){
     else if(playerScore > computerScore){
         alert('You Win!!!!!!!');
     }
-    else alert("You Lose!!!!!");
+    else alert("You Lose!!!!!");*/
 }
 
 function playRound(playerChoice, computerChoice){
